@@ -1,0 +1,15 @@
+{
+  "name": "demo-playwright-workshop",
+  "version": "1.0.0",
+  "description": "Backup e2e project",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.36.1"
+  }
+}
