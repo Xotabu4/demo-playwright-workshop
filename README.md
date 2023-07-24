@@ -14,3 +14,16 @@ Telegram chat 28.07.2023
 https://t.ly/Cef6_
 OR
 https://t.me/+BxKD9eW0mNI3OWZi
+
+
+run codegen
+```
+npx playwright codegen
+```
+
+run tests
+```
+npx playwright test
+// OR
+npm test
+```
