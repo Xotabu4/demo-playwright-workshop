@@ -2,6 +2,8 @@ import { expect } from "@playwright/test";
 import { AppPage } from "../abstractClasses";
 
 export class SignUp extends AppPage {
+    public pagePath = '/register';
+
     private emailInput = this.page.getByRole('main').getByPlaceholder('Please Enter Your Email');
     private firstNameInput = this.page.getByPlaceholder('Please Enter Your First Name');
     private lastNameInput = this.page.getByPlaceholder('Please Enter Your Last Name');
