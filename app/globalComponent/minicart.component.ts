@@ -10,4 +10,7 @@ export class MiniCart extends Component {
     async proceedToCheckout() {
         await this.proceedToCheckoutButton.click();
     }
+    async placeOrder() {
+        await this.page.getByRole('button', { name: 'Place Order' }).click();
+    }
 }

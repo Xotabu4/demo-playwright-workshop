@@ -13,10 +13,9 @@ export class Product extends AppPage {
     private removeFromBagButton = this.page.getByRole('button', { name: 'Remove From Bag' });
 
     async expectLoaded(message = 'Expected Product page to be opened') {
-        await expect(
-            this.addToBagButton.or(
-                this.removeFromBagButton
-            ), message
+        await expect(this.addToBagButton
+            .or(this.removeFromBagButton),
+            message
         ).toBeVisible();
     }
 
