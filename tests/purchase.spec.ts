@@ -9,22 +9,33 @@ const testUser = {
 test('logged in user can buy a product', async ({ page }) => {
   const app = new Application(page);
 
-  await app.home.open();
+  await app.signIn.open();
+  await app.signIn.signIn(testUser);
+  await app.accountDetails.expectLoaded();
   await app.home.header.openShop();
   await app.shop.openProductDetailsByName('CHERRY TOMATOES');
   await app.product.addToBag();
-  await app.product.miniCart.proceedToCheckout();
-  await app.signIn.signIn(testUser);
-  await app.accountDetails.expectLoaded();
-  await app.accountDetails.header.openCart();
   await app.accountDetails.miniCart.placeOrder();
   await app.confirmation.expectOrderPlaced();
 });
 
-test.fixme('logged in user can purchase multiple items', ({ page }) => {
-  // TODO: 
-});
+test('logged in user can purchase multiple items', async ({ page }) => {
+  const app = new Application(page);
 
-test.fixme('non-logged user should be asked to login', ({ page }) => {
-  // TODO: 
+  await app.signIn.open();
+  await app.signIn.signIn(testUser);
+  await app.accountDetails.expectLoaded();
+  
+  // Item #1
+  await app.home.header.openShop();
+  await app.shop.openProductDetailsByName('CHERRY TOMATOES');
+  await app.product.addToBag();
+
+  // Item #2
+  await app.product.header.openShop();
+  await app.shop.openProductDetailsByName('MARINATED CUCUMBERS NEZHIN STYLE');
+  await app.product.addToBag();
+
+  await app.accountDetails.miniCart.placeOrder();
+  await app.confirmation.expectOrderPlaced();
 });
