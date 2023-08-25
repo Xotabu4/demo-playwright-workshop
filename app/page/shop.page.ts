@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { AppPage } from "../abstractClasses";
-import { Header } from "../globalComponent/header.component";
+import { Header } from "../component/header.component";
 
 export class Shop extends AppPage {
     public pagePath = '/shop';

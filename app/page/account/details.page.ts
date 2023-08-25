@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import { AppPage } from "../../abstractClasses";
-import { Header } from "../../globalComponent/header.component";
-import { MiniCart } from "../../globalComponent/minicart.component";
+import { Header } from "../../component/header.component";
+import { MiniCart } from "../../component/minicart.component";
 
 export class AccountDetails extends AppPage {
     public pagePath = '/details'
