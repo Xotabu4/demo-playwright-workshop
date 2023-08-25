@@ -27,7 +27,7 @@ export abstract class AppPage extends Component {
      * Opens the page in the browser and expectLoaded should pass
      */
     async open(path?: string) {
-        await this.page.goto(path ? path: this.pagePath);
+        await this.page.goto(path ?? this.pagePath);
         await this.expectLoaded();
     }
 }

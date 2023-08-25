@@ -6,7 +6,7 @@ export class Header extends Component {
     private cartLink = this.page.getByRole('button', { name: 'your cart' })
 
     async expectLoaded(message = 'Expected Header to be loaded'): Promise<void> {
-        await expect(this.shopLink, message).toBeVisible()
+        await expect(this.shopLink, message).toBeVisible();
     }
     async openCart() {
         await this.cartLink.click();
