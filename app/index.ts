@@ -2,7 +2,7 @@ import { PageHolder } from "./abstractClasses";
 import { AccountDetails } from "./page/account/details.page";
 import { Confirmation } from "./page/confirmation.page";
 import { Home } from "./page/home.page";
-import { Product } from "./page/product.page";
+import { Product } from "./page/product";
 import { Shop } from "./page/shop.page";
 import { SignIn } from "./page/signin.page";
 import { SignUp } from "./page/signup.page";

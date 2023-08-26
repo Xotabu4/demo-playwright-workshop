@@ -17,6 +17,9 @@ test('logged in user can buy a product', async ({ page }) => {
   await app.product.addToBag();
   await app.accountDetails.miniCart.placeOrder();
   await app.confirmation.expectOrderPlaced();
+
+  // const { signIn } = new Application(page);
+  // signIn.open();
 });
 
 test('logged in user can purchase multiple items', async ({ page }) => {
