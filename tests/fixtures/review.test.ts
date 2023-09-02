@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { Application } from '../app';
+import { Application } from '../../app';
 
 const testUser = {
     email: 'test+1692462339712@test.com',
