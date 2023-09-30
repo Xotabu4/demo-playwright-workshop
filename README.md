@@ -8,7 +8,6 @@ URLs:
 2. https://mern-store.onrender.com/ (Backup)
 
 
-
 Notes:
 
 Debug selectors while pick locator: 
