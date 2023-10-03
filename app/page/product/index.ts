@@ -27,6 +27,7 @@ export class Product extends AppPage {
     }
 
     async addToBag() {
+        await this.expectLoaded();
         await this.addToBagButton.click();
     }
 }
