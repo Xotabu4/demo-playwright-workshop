@@ -36,19 +36,12 @@ export const loggedInAsNewUserFixture = baseFixture.extend<UserContext>({
             lastName: "test",
             password: "xotabu4@gmail.com"
         };
-
         const createdUser = await new API().createNewUser(userModel)
-
-        // page.context().addInitScript()
         await app.signIn.open();
-        // await app.signIn.signIn(userModel);
         await page.evaluate((token) => {
             window.localStorage.setItem('token', token)
         }, createdUser.token);
         await app.home.open();
-
-        // await app.accountDetails.expectLoaded();
-
         await use({ userModel, createdUser});
     },
 });

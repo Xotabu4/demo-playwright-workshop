@@ -62,13 +62,6 @@ export class API {
                 "accept": "application/json, text/plain, */*",
                 "content-type": "application/json;charset=UTF-8",
             },
-            // data: {
-            //     isSubscribed: false,
-            //     email: "xotabu4@gmail.com",
-            //     firstName: "test",
-            //     lastName: "test",
-            //     password: "xotabu4@gmail.com"
-            // },
             data
         })
 

@@ -9,12 +9,12 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<{ defaultUser: { email: string, password: string } }>({
   // testDir: './tests',
-  testDir: './tests/fixtures/auto',
+  testDir: './tests/contactus',
   /* Run tests in files in parallel */
   fullyParallel: true,
-  workers: 10,
+  workers: process.env.API_WORKERS ? process.env.API_WORKERS : 10,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   // maxFailures: 50,
@@ -23,7 +23,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    // ['testrail', { user: process.env.E2E_TESTRAIL_USER, password: process.env.E2E_TESTRAIL_PASSWORD }]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -36,8 +39,9 @@ export default defineConfig({
     },
     video: {
       mode: 'on-first-retry'
+      // mode: 'retain-on-failure'
     },
-    headless: true,
+    headless: false,
   },
   /* Configure projects for major browsers */
   projects: [
@@ -47,11 +51,15 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     defaultUser: {
+    //       email: 'xotabu4@gmail.com',
+    //       password: 'xotabu4@gmail.com'
+    //     },
+    //   },
+    // },
   ],
 });

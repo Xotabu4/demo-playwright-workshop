@@ -11,7 +11,7 @@ export class AccountDetails extends AppPage {
 
     private heading = this.page.getByRole('heading', { name: 'Account Details' })
 
-    async expectLoaded() {
-        await expect(this.heading).toBeVisible();
+    async expectLoaded(message = 'Expected Account Details page to be opened') {
+        await expect(this.heading, message).toBeVisible();
     }
 }

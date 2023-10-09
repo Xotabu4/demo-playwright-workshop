@@ -10,5 +10,6 @@ export class Home extends AppPage {
 
     async expectLoaded(message = 'Expected Home page to be opened') {
         await expect(this.carousel, message).toBeVisible();
+        await this.header.expectLoaded();
     }
 }

@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { Application } from '../app';
 
 const testUser = {
@@ -16,7 +16,9 @@ test(`user can post review for product`, async ({ page }) => {
 
     await app.signIn.open();
     await app.signIn.signIn(testUser);
-    await app.accountDetails.expectLoaded();
+    await app.accountDetails.expectLoaded(
+        'User should be forwarded to Account Details page after sign in'
+    );
     await app.home.header.openShop();
     await app.shop.openProductDetailsByName('CHERRY TOMATOES');
 
