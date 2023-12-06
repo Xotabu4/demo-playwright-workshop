@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { DefaultUserOption } from './fixtures';
 
 /**
  * Read environment variables from file.
@@ -9,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<DefaultUserOption>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -37,13 +38,17 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        defaultUser: {
+          email: 'xotabu4@gmail.com',
+          password: 'xotabu4@gmail.com'
+        }
       },
     },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //   },
+    // },
   ],
 });
