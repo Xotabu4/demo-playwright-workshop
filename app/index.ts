@@ -1,6 +1,7 @@
 import { PageHolder } from "./abstractClasses";
 import { AccountDetails } from "./page/account/details.page";
 import { Confirmation } from "./page/confirmation.page";
+import { ContactUs } from "./page/contactus.page";
 import { Home } from "./page/home.page";
 import { Product } from "./page/product";
 import { Shop } from "./page/shop.page";
@@ -15,4 +16,5 @@ export class Application extends PageHolder {
     public signIn = new SignIn(this.page);
     public accountDetails = new AccountDetails(this.page);
     public confirmation = new Confirmation(this.page);
+    public contactus = new ContactUs(this.page);
 }
