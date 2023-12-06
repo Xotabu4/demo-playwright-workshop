@@ -16,7 +16,6 @@ export default defineConfig({
   workers: 10,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  // maxFailures: 50,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
@@ -29,14 +28,8 @@ export default defineConfig({
     baseURL: 'https://shopdemo-alex-hot.koyeb.app',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    screenshot: {
-      fullPage: true,
-      mode: 'only-on-failure',
-    },
-    video: {
-      mode: 'on-first-retry'
-    },
-    headless: true,
+    headless: process.env.CI ? true : false,
+    viewport: { width: 1920, height: 1080 },
   },
   /* Configure projects for major browsers */
   projects: [
