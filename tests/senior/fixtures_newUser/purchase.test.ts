@@ -1,12 +1,8 @@
-import { loggedInAsNewUserFixture } from '../../fixtures';
+import { loggedInAsNewUserFixture } from '../../../fixtures';
 
 const fixture = loggedInAsNewUserFixture;
 
 fixture('fixt: logged in user can buy a product', async ({ app, user }) => {
-
-  console.log(user.createdUser)
-  console.log(user.userModel)
-
   await app.home.header.openShop();
   await app.shop.openProductDetailsByName('CHERRY TOMATOES');
   await app.product.addToBag();

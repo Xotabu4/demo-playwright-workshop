@@ -1,4 +1,4 @@
-import { loggedUserFixture } from '../../fixtures';
+import { loggedUserFixture } from '../../../fixtures';
 
 loggedUserFixture('fixt: logged in user can buy a product', async ({ app }) => {
   await app.home.header.openShop();
