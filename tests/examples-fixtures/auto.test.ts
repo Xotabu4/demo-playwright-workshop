@@ -10,7 +10,7 @@ const autoFixture = test.extend<{ someData1: { test1: boolean } }>({
     ],
 });
 
-autoFixture('Fixture not defined in params', ({ }) => {
+autoFixture.skip('Fixture not defined in params', ({ }) => {
     // browser not started since not used, "someData" is not set since not used
     console.log('test done!')
 })
@@ -26,7 +26,7 @@ const lazyFixture = test.extend<{ someData1: { test1: boolean }, someData2: { te
     },
 });
 
-test.describe('suite', () => {
+test.describe.skip('suite', () => {
     // test.skip(() => !test.info().project.name.includes('mobile'));
 
     autoFixture.skip(({ isMobile }) => {

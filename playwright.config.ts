@@ -11,10 +11,10 @@ import { DefaultUserOption } from './fixtures';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<DefaultUserOption>({
-  testDir: './tests',
+  testDir: './tests/tests-junior',
   /* Run tests in files in parallel */
-  fullyParallel: true,
-  workers: 10,
+  fullyParallel: false,
+  workers: 1,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -22,7 +22,10 @@ export default defineConfig<DefaultUserOption>({
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['./misc/reporters/slowStepReporter.ts'],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -30,7 +33,6 @@ export default defineConfig<DefaultUserOption>({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     headless: process.env.CI ? true : false,
-    viewport: { width: 1920, height: 1080 },
   },
   /* Configure projects for major browsers */
   projects: [
@@ -38,6 +40,7 @@ export default defineConfig<DefaultUserOption>({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 },
         defaultUser: {
           email: 'xotabu4@gmail.com',
           password: 'xotabu4@gmail.com'

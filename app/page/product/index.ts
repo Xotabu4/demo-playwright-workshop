@@ -3,6 +3,7 @@ import { AppPage } from "../../abstractClasses";
 import { Header } from "../../component/header.component";
 import { MiniCart } from "../../component/minicart.component";
 import { Review } from "./component/review.component";
+import { step } from "../../../misc/reporters/step";
 
 export class Product extends AppPage {
     public pagePath = '/product';
@@ -15,6 +16,7 @@ export class Product extends AppPage {
 
     public reviewComponent = new Review(this.page);
 
+    @step()
     async expectLoaded(message = 'Expected Product page to be opened') {
         await expect(this.addToBagButton
             .or(this.removeFromBagButton),
@@ -22,10 +24,12 @@ export class Product extends AppPage {
         ).toBeVisible();
     }
 
+    @step()
     override async open(productPath: string): Promise<void> {
         await this.page.goto(productPath);
     }
 
+    @step()
     async addToBag() {
         await this.expectLoaded();
         await this.addToBagButton.click();

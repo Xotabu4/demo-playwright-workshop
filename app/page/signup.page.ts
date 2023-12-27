@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { AppPage } from "../abstractClasses";
+import { step } from "../../misc/reporters/step";
 
 export class SignUp extends AppPage {
     public pagePath = '/register';
@@ -10,10 +11,12 @@ export class SignUp extends AppPage {
     private passwordInput = this.page.getByPlaceholder('Please Enter Your Password')
     private signUpButton = this.page.getByRole('button', { name: 'Sign Up' });
 
+    @step()
     async expectLoaded() {
         await expect(this.emailInput, 'Expected SignUp page to be opened').toBeVisible();
     }
 
+    @step()
     async signUpNewUser() {
         await this.emailInput.fill(`test+${Date.now()}@test.com`);
         await this.firstNameInput.fill('test');

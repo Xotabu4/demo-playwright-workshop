@@ -1,4 +1,5 @@
 import { request } from "@playwright/test"
+import { step } from "../misc/reporters/step"
 
 // fetch("https://shopdemo-alex-hot.koyeb.app/api/auth/register", {
 //   "headers": {
@@ -55,6 +56,7 @@ export interface UserCreateRequest {
 }
 
 export class API {
+    @step()
     async createNewUser(data: UserCreateRequest): Promise<UserCreatedResponse> {
         const req = await request.newContext();
         const resp = await req.post('https://shopdemo-alex-hot.koyeb.app/api/auth/register', {

@@ -1,11 +1,19 @@
 import { test } from '@playwright/test';
 import { Application } from '../../app';
-import { loginAsUserPrecondition } from '../preconditions';
 
-loginAsUserPrecondition();
+const testUser = {
+    email: 'test+e1f76f13-0f04-4f2e-86d8-0e78e3df2ddd@test.com',
+    password: 'xotabu4@gmail.com'
+}
 
 test(`user can post review for product`, async ({ page }) => {
     const app = new Application(page);
+
+    await app.signIn.open();
+    await app.signIn.signIn(testUser);
+    await app.accountDetails.expectLoaded();
+
+    await app.home.header.openShop();
 
     await app.shop.openProductDetailsByName('CHERRY TOMATOES');
 
