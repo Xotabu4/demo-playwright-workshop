@@ -11,7 +11,8 @@ import { DefaultUserOption } from './fixtures';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<DefaultUserOption>({
-  testDir: './tests/tests-junior',
+  testDir: './sandbox',
+  // testDir: './tests/tests-junior',
   /* Run tests in files in parallel */
   fullyParallel: false,
   workers: 1,
