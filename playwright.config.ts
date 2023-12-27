@@ -23,6 +23,7 @@ export default defineConfig<DefaultUserOption>({
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
+    ['list'],
     ['html'],
     ['./misc/reporters/slowStepReporter.ts'],
   ],
@@ -34,6 +35,7 @@ export default defineConfig<DefaultUserOption>({
     trace: 'on-first-retry',
     headless: process.env.CI ? true : false,
   },
+  // globalSetup: require.resolve('./misc/cacheWarmer.ts'),
   /* Configure projects for major browsers */
   projects: [
     {
