@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import { DefaultUserOption } from './fixtures';
 
 /**
  * Read environment variables from file.
@@ -10,7 +9,7 @@ import { DefaultUserOption } from './fixtures';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig<DefaultUserOption>({
+export default defineConfig({
   testDir: './tests',
   // testDir: './tests/tests-junior',
   /* Run tests in files in parallel */
@@ -26,7 +25,6 @@ export default defineConfig<DefaultUserOption>({
   reporter: [
     ['list'],
     ['html'],
-    // ['./misc/reporters/slowStepReporter.ts'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -38,7 +36,6 @@ export default defineConfig<DefaultUserOption>({
     },
     headless: process.env.CI ? true : true,
   },
-  // globalSetup: require.resolve('./misc/cacheWarmer.ts'),
   /* Configure projects for major browsers */
   projects: [
     {
@@ -46,10 +43,6 @@ export default defineConfig<DefaultUserOption>({
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
-        defaultUser: {
-          email: 'xotabu4@gmail.com',
-          password: 'xotabu4@gmail.com'
-        }
       },
     },
     // {
