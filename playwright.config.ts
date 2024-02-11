@@ -11,7 +11,7 @@ import { DefaultUserOption } from './fixtures';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<DefaultUserOption>({
-  testDir: './sandbox',
+  testDir: './tests',
   // testDir: './tests/tests-junior',
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -26,15 +26,17 @@ export default defineConfig<DefaultUserOption>({
   reporter: [
     ['list'],
     ['html'],
-    ['./misc/reporters/slowStepReporter.ts'],
+    // ['./misc/reporters/slowStepReporter.ts'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://shopdemo-alex-hot.koyeb.app',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    headless: process.env.CI ? true : false,
+    trace: {
+      mode: 'on-first-retry'
+    },
+    headless: process.env.CI ? true : true,
   },
   // globalSetup: require.resolve('./misc/cacheWarmer.ts'),
   /* Configure projects for major browsers */
