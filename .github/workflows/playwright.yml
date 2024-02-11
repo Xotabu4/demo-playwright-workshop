@@ -11,10 +11,10 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.41.2-jammy
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: e2e tests
       run: npm cit
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
