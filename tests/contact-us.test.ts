@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { test } from '@playwright/test';
 import { Application } from '../app';
 
-test('test', async ({ page }) => {
+test('user can submit contact form', async ({ page }) => {
   const app = new Application(page);
 
   await app.contactus.open();
