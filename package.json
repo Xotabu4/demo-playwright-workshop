@@ -2,7 +2,7 @@
   "name": "demo-playwright-workshop",
   "version": "1.0.0",
   "description": "Backup e2e project",
-  "main": "index.js",
+  "private": "true",
   "scripts": {
     "test": "playwright test"
   },
@@ -10,10 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.40.1",
+    "@playwright/test": "1.41.2",
     "@types/node": "^20.10.3",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
-    "eslint": "^8.47.0"
+    "eslint": "^8.47.0",
+    "dotenv": "16.4.2"
   }
 }

@@ -1,32 +1,33 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { defineConfig, devices } from '@playwright/test';
-import { DefaultUserOption } from './fixtures';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig<DefaultUserOption>({
+export default defineConfig({
   testDir: './tests',
-  // testDir: './tests/tests-junior',
+  fullyParallel: true,
   /* Run tests in files in parallel */
-  fullyParallel: false,
-  workers: 1,
+  workers: '80%',
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
+  maxFailures: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
     ['html'],
-    // ['./misc/reporters/slowStepReporter.ts'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -38,18 +39,13 @@ export default defineConfig<DefaultUserOption>({
     },
     headless: process.env.CI ? true : true,
   },
-  // globalSetup: require.resolve('./misc/cacheWarmer.ts'),
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'desktop',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
-        defaultUser: {
-          email: 'xotabu4@gmail.com',
-          password: 'xotabu4@gmail.com'
-        }
       },
     },
     // {
