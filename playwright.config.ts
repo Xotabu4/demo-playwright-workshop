@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -18,6 +21,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
+  maxFailures: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -38,7 +42,7 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'desktop',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
