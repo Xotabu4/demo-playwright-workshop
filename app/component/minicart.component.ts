@@ -8,16 +8,20 @@ export class MiniCart extends Component {
 
     @step()
     async expectLoaded() {
-        await expect(this.proceedToCheckoutButton.or(this.placeOrderButton)).toBeVisible();
+        await expect(this.proceedToCheckoutButton.or(this.placeOrderButton),
+            'Minicart is not loaded')
+            .toBeVisible();
     }
 
     @step()
     async proceedToCheckout() {
+        await this.expectLoaded();
         await this.proceedToCheckoutButton.click();
     }
 
     @step()
     async placeOrder() {
+        await this.expectLoaded();
         await this.placeOrderButton.click();
     }
 }

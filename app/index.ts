@@ -4,7 +4,7 @@ import { Confirmation } from "./page/confirmation.page";
 import { ContactUs } from "./page/contactus.page";
 import { Home } from "./page/home.page";
 import { Product } from "./page/product";
-import { Shop } from "./page/shop.page";
+import { Shop } from "./page/shop/shop.page";
 import { SignIn } from "./page/signin.page";
 import { SignUp } from "./page/signup.page";
 
