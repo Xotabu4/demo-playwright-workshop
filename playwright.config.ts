@@ -11,7 +11,7 @@ import { DefaultUserOption } from './fixtures';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<DefaultUserOption>({
-  testDir: './tests',
+  testDir: './tests/tests-junior',
   // testDir: './tests/tests-junior',
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -36,7 +36,7 @@ export default defineConfig<DefaultUserOption>({
     trace: {
       mode: 'on-first-retry'
     },
-    headless: process.env.CI ? true : true,
+    headless: process.env.CI ? true : false,
   },
   // globalSetup: require.resolve('./misc/cacheWarmer.ts'),
   /* Configure projects for major browsers */
@@ -45,18 +45,18 @@ export default defineConfig<DefaultUserOption>({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
+        // viewport: { width: 1920, height: 1080 },
         defaultUser: {
           email: 'xotabu4@gmail.com',
           password: 'xotabu4@gmail.com'
         }
       },
     },
-    // {
-    //   name: 'firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+      },
+    },
   ],
 });
