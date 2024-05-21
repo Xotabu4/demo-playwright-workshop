@@ -24,6 +24,7 @@ export class Product extends AppPage {
         ).toBeVisible();
     }
 
+    // TODO: Rewrite to accept only product slug
     @step()
     override async open(productPath: string): Promise<void> {
         await this.page.goto(productPath);
