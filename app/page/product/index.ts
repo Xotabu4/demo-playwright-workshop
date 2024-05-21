@@ -31,6 +31,11 @@ export class Product extends AppPage {
     }
 
     @step()
+    async changeQuantity(quantity: number) {
+        await this.page.getByPlaceholder('Product Quantity').fill(quantity.toString());
+    }
+
+    @step()
     async addToBag() {
         await this.expectLoaded();
         await this.addToBagButton.click();

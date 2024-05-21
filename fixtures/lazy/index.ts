@@ -15,15 +15,15 @@ export const shopTest = test.extend<{
     itemsInCart: { slug: string }[];
   };
   testOptions: {
-    itemsToAddInCart: { slug: string }[];
+    itemsToAddInCart: { slug: string; quantity?: number }[];
   };
 }>({
   testOptions: [
     {
       itemsToAddInCart: [
         {
-          slug: "cherry-tomatoes"
-        }
+          slug: "cherry-tomatoes",
+        },
       ],
     },
     {
@@ -58,6 +58,9 @@ export const shopTest = test.extend<{
     // '[{"taxable":false,"isActive":true,"brand":{"isActive":true,"_id":"64bbbc91e9d7a367fcb1d462","name":"Nizhyn cannery","slug":"Nizhyn"},"_id":"64e106888e01260021ea480c","sku":"CHERRY_TOMATOES","name":"CHERRY TOMATOES","description":"cherry tomatoes, salt, sugar, greens, acetic acid, garlic, spices","quantity":1,"price":95,"created":"2023-08-19T18:14:32.255Z","slug":"cherry-tomatoes","__v":0,"inventory":98913,"totalPrice":95}]')
     for (const item of testOptions.itemsToAddInCart) {
       await app.product.open(`/product/${item.slug}`);
+      if (item.quantity !== undefined) {
+        await app.product.changeQuantity(item.quantity);
+      }
       await app.product.addToBag();
     }
     await use({ itemsInCart: testOptions.itemsToAddInCart });
