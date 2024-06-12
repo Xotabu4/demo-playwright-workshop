@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { Application } from "../app";
+import { Application } from "../appOL";
 import { randomUUID } from "crypto";
 import { UserCreateRequest, UserCreatedResponse } from "../api/models";
 
@@ -9,7 +9,7 @@ interface UserContext {
 }
 
 export const shopTest = test.extend<{
-  app: Application;
+  app: ReturnType<typeof Application>;
   newUser: UserContext;
   itemAddedInCart: {
     itemsInCart: { slug: string }[];
@@ -32,7 +32,7 @@ export const shopTest = test.extend<{
   ],
 
   app: async ({ page }, use) => {
-    const app = new Application(page);
+    const app = Application(page);
     await use(app);
   },
 

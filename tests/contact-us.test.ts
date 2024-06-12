@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { shopTest } from "../fixtures";
 
-shopTest("test", async ({ app }) => {
+shopTest("can submit contact us form", async ({ app }) => {
   await app.contactus.open();
   await app.contactus.submitContactUsForm({
     email: `xotabu4+${randomUUID()}@gmail.com`,
