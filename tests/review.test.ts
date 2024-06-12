@@ -1,7 +1,6 @@
-import { loggedInAsNewUserFixture } from "../../../fixtures";
+import { shopTest } from "../fixtures";
 
-loggedInAsNewUserFixture(`user can post review for product`, async ({ app: { home, shop, product }, user }) => {
-    await home.open();
+shopTest(`user can post review for product`, async ({ app: { home, shop, product }, newUser }) => {
     await home.header.openShop();
     await shop.openProductDetailsByName('CHERRY TOMATOES');
 

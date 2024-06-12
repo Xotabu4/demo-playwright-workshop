@@ -1,52 +1,42 @@
 import { test } from "@playwright/test";
 import { Application } from "../app";
+import { randomUUID } from "crypto";
 import { UserCreateRequest, UserCreatedResponse } from "../api/models";
-import { randomUUID } from "node:crypto";
 
-export const baseFixture = test.extend<{ app: Application }>({
-  app: async ({ page }, use) => {
-    const app = new Application(page);
-    await use(app);
-  },
-});
+interface UserContext {
+  userModel: UserCreateRequest;
+  createdUser: UserCreatedResponse;
+}
 
-export type DefaultUserOption = {
-  defaultUser: {
-    email: string;
-    password: string;
+export const shopTest = test.extend<{
+  app: Application;
+  newUser: UserContext;
+  itemAddedInCart: {
+    itemsInCart: { slug: string }[];
   };
-};
-
-export const loggedUserFixture = baseFixture.extend<
-  DefaultUserOption & { app: Application }
->({
-  defaultUser: [
+  testOptions: {
+    itemsToAddInCart: { slug: string; quantity?: number }[];
+  };
+}>({
+  testOptions: [
     {
-      email: "test+e1f76f13-0f04-4f2e-86d8-0e78e3df2ddd@test.com",
-      password: "xotabu4@gmail.com",
+      itemsToAddInCart: [
+        {
+          slug: "cherry-tomatoes",
+        },
+      ],
     },
     {
       option: true,
     },
   ],
-  app: async ({ app, defaultUser }, use) => {
-    await app.signIn.open();
-    await app.signIn.signIn(defaultUser);
-    await app.accountDetails.expectLoaded();
-    await app.home.header.openShop();
 
+  app: async ({ page }, use) => {
+    const app = new Application(page);
     await use(app);
-    // Cleanup
-    console.log("Post fixture!", defaultUser);
   },
-});
 
-interface UserContext {
-  user: { userModel: UserCreateRequest; createdUser: UserCreatedResponse };
-}
-
-export const loggedInAsNewUserFixture = baseFixture.extend<UserContext>({
-  user: async ({ app }, use) => {
+  newUser: async ({ app }, use) => {
     const userModel = {
       isSubscribed: false,
       email: `test+${randomUUID()}@test.com`,
@@ -60,5 +50,19 @@ export const loggedInAsNewUserFixture = baseFixture.extend<UserContext>({
     await app.home.open();
 
     await use({ userModel, createdUser });
+  },
+
+  itemAddedInCart: async ({ app, testOptions }, use) => {
+    // TODO: Investigate posibility to set cart with localStorage.setItem
+    // window.localStorage.setItem('cart_items',
+    // '[{"taxable":false,"isActive":true,"brand":{"isActive":true,"_id":"64bbbc91e9d7a367fcb1d462","name":"Nizhyn cannery","slug":"Nizhyn"},"_id":"64e106888e01260021ea480c","sku":"CHERRY_TOMATOES","name":"CHERRY TOMATOES","description":"cherry tomatoes, salt, sugar, greens, acetic acid, garlic, spices","quantity":1,"price":95,"created":"2023-08-19T18:14:32.255Z","slug":"cherry-tomatoes","__v":0,"inventory":98913,"totalPrice":95}]')
+    for (const item of testOptions.itemsToAddInCart) {
+      await app.product.open(`/product/${item.slug}`);
+      if (item.quantity !== undefined) {
+        await app.product.changeQuantity(item.quantity);
+      }
+      await app.product.addToBag();
+    }
+    await use({ itemsInCart: testOptions.itemsToAddInCart });
   },
 });
