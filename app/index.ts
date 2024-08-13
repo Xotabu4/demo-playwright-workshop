@@ -1,36 +1,37 @@
-import { API } from "../api/api";
+import { expect } from "@playwright/test";
 import { PageHolder } from "./abstractClasses";
-import { AccountDetails } from "./page/account/details.page";
-import { Confirmation } from "./page/confirmation.page";
-import { ContactUs } from "./page/contactus.page";
-import { Home } from "./page/home.page";
-import { Product } from "./page/product";
-import { Shop } from "./page/shop.page";
-import { SignIn } from "./page/signin.page";
-import { SignUp } from "./page/signup.page";
+import { Dashboard } from "./pages/dashboard.page";
+import { Call } from "./pages/call.page";
+import { WaitingRoom } from "./pages/waitingRoom.page";
+import { step } from "../misc/reporters/step";
 
-export class Application extends PageHolder {
-  public api = new API(this.page.request);
+// email = "xotabu4+DOXYME@gmail.com",
+// password = "xotabu4+DOXYME@gmail.com"
 
-  public signUp = new SignUp(this.page);
-  public home = new Home(this.page);
-  public shop = new Shop(this.page);
-  public product = new Product(this.page);
-  public signIn = new SignIn(this.page);
-  public accountDetails = new AccountDetails(this.page);
-  public confirmation = new Confirmation(this.page);
-  public contactus = new ContactUs(this.page);
+abstract class Application extends PageHolder {
+  public call = new Call(this.page);
+}
 
-  async headlessLogin(data: { email: string; password: string }) {
-    const token = (await this.api.auth.login(data)).token;
-    await this.setTokenToLocalStorage(token);
+export class DoctorApplication extends Application {
+  public dashboard = new Dashboard(this.page);
+
+  @step()
+  async signIn() {
+    await this.page.goto("/signin");
+
+    await this.page
+      .getByPlaceholder("Email")
+      .pressSequentially(process.env.DOXYME_USER as string);
+    await this.page
+      .getByPlaceholder("Password")
+      .pressSequentially(process.env.DOXYME_PASSWORD as string);
+    await this.page.getByRole("button", { name: "Sign in" }).click();
+    await expect(
+      this.page.getByRole("heading", { name: "Welcome Mr. User1" })
+    ).toBeVisible({ timeout: 30000 });
   }
+}
 
-  async setTokenToLocalStorage(token: string) {
-    await this.page.goto("/", { waitUntil: "commit" });
-    await this.page.evaluate(
-      (_token) => window.localStorage.setItem("token", _token),
-      token
-    );
-  }
+export class PatientApplication extends Application {
+  public waitingRoom = new WaitingRoom(this.page);
 }

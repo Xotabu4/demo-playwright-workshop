@@ -1,64 +1,44 @@
-import { test } from "@playwright/test";
-import { Application } from "../app";
-import { UserCreateRequest, UserCreatedResponse } from "../api/models";
-import { randomUUID } from "node:crypto";
+import { Browser, BrowserContext, Page, test } from "@playwright/test";
+import { DoctorApplication, PatientApplication } from "../app";
 
-export const baseFixture = test.extend<{ app: Application }>({
-  app: async ({ page }, use) => {
-    const app = new Application(page);
-    await use(app);
-  },
-});
-
-export type DefaultUserOption = {
-  defaultUser: {
-    email: string;
-    password: string;
-  };
+export type DoxymeRole<T> = {
+  app: T;
+  page: Page;
+  context: BrowserContext;
+  browser: Browser;
 };
 
-export const loggedUserFixture = baseFixture.extend<
-  DefaultUserOption & { app: Application }
->({
-  defaultUser: [
-    {
-      email: "test+e1f76f13-0f04-4f2e-86d8-0e78e3df2ddd@test.com",
-      password: "xotabu4@gmail.com",
-    },
-    {
-      option: true,
-    },
-  ],
-  app: async ({ app, defaultUser }, use) => {
-    await app.signIn.open();
-    await app.signIn.signIn(defaultUser);
-    await app.accountDetails.expectLoaded();
-    await app.home.header.openShop();
-
-    await use(app);
-    // Cleanup
-    console.log("Post fixture!", defaultUser);
+export const doxymeTest = test.extend<{
+  doctor: DoxymeRole<DoctorApplication>;
+  patient: DoxymeRole<PatientApplication> & { name: string };
+}>({
+  doctor: async ({ page, context, browser }, use) => {
+    // @ts-expect-error - adding custom property to context
+    context.DOXYME_ROLE = "Doctor";
+    const app = new DoctorApplication(page);
+    await use({
+      app,
+      page,
+      context,
+      browser,
+    });
   },
-});
-
-interface UserContext {
-  user: { userModel: UserCreateRequest; createdUser: UserCreatedResponse };
-}
-
-export const loggedInAsNewUserFixture = baseFixture.extend<UserContext>({
-  user: async ({ app }, use) => {
-    const userModel = {
-      isSubscribed: false,
-      email: `test+${randomUUID()}@test.com`,
-      firstName: "test",
-      lastName: "test",
-      password: "xotabu4@gmail.com",
-    };
-
-    const createdUser = await app.api.auth.createNewUser(userModel);
-    await app.headlessLogin(userModel);
-    await app.home.open();
-
-    await use({ userModel, createdUser });
+  patient: async ({ browser }, use) => {
+    const patientCtx = await browser.newContext({
+      viewport: { width: 1280, height: 1080 },
+    });
+    // @ts-expect-error - adding custom property to context
+    patientCtx.DOXYME_ROLE = "Patient1";
+    const patientPage = await patientCtx.newPage();
+    const app = new PatientApplication(patientPage);
+    await use({
+      app,
+      page: patientPage,
+      context: patientCtx,
+      browser,
+      name: "Patient1",
+    });
+    await patientPage.close();
+    await patientCtx.close();
   },
 });
